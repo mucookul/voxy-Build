@@ -10,7 +10,7 @@ jobs:
     steps:
       - run: |
           curl -LO https://github.com/MCRcortex/voxy/archive/refs/heads/dev.tar.gz
-          tar -xf dev.tar.gz
+          tar -xf voxy-dev.tar.gz
 
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
@@ -21,7 +21,7 @@ jobs:
         with:
           cache-disabled: true
 
-      - working-directory: dev
+      - working-directory: voxy-dev
         run: |
           ./gradlew build -PincludeOtherArchs=true
 
