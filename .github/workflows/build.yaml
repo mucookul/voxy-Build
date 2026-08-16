@@ -28,4 +28,4 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create voxy ./voxy/build/libs/*.jar --draft --repo $GITHUB_REPOSITORY
+          gh release create voxy ./voxy-dev/build/libs/*.jar --draft --repo $GITHUB_REPOSITORY
