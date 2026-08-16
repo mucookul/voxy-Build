@@ -1,0 +1,31 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04-arm
+    permissions:
+      contents: write
+
+    steps:
+      - run: |
+          curl -LO https://github.com/MCRcortex/voxy/archive/refs/heads/dev.tar.gz
+          tar -xf dev.tar.gz
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          cache-disabled: true
+
+      - working-directory: dev
+        run: |
+          ./gradlew build -PincludeOtherArchs=true
+
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create voxy ./voxy/build/libs/*.jar --draft --repo $GITHUB_REPOSITORY
